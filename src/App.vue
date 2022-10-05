@@ -11,6 +11,8 @@ import SubredditInfo from './components/SubredditInfo.vue';
 import axios from 'axios';
 import purifyPosts from './utils/renderingHandler';
 
+document.title = 'Reddit Clone';
+
 const searchTerm = ref('');
 const loading = ref(false);
 const error = ref('');
@@ -37,6 +39,11 @@ function fetchData() {
       const { children } = postsData.data.data;
       const subredditAbout = subredditInfoData.data.data;
 
+      document.title = `Reddit Clone | r/${searchTerm.value.replace(
+        /\s+/g,
+        ''
+      )}`;
+
       data.value = purifyPosts(children);
       subredditInfo.value = subredditAbout;
       searchTerm.value = '';
@@ -52,14 +59,18 @@ function fetchData() {
 
           if (children.length > 0) {
             error.value = `There is no: r/${searchTerm.value.replace(
-              ' ',
+              /\s+/g,
               ''
-            )}, these are some results on reddit that have that term.`;
+            )}, these are some results on reddit that have the term "${
+              searchTerm.value
+            }".`;
 
             data.value = purifyPosts(children, true);
           } else {
             error.value = `Nothing found for: ${searchTerm.value}`;
           }
+
+          document.title = `Reddit Clone | Search results for: ${searchTerm.value}`;
 
           searchTerm.value = '';
           loading.value = false;

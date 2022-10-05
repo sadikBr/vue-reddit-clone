@@ -2,7 +2,7 @@
   <div class="post" v-if="subreddit_type !== 'user' && type !== 'non-conform'">
     <MediaRender :post="props.post" />
 
-    <h3 class="post-title">
+    <h3 :title="title" class="post-title">
       {{ title }}
     </h3>
 
@@ -41,6 +41,14 @@ const authorProfile = `https://www.reddit.com/u/${author}`;
   font-size: 0.9rem;
   padding: 0.5rem;
   margin: 0;
+}
+
+.post-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  padding: 0 0.5rem;
+  overflow: hidden;
 }
 
 .author-link {
